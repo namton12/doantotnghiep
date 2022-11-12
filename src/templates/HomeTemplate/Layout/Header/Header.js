@@ -1,8 +1,55 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import '../Header/Header.css'
+import _ from 'lodash'
+import {Fragment} from "react"
+import {USER_LOGIN} from "../../../../utilities/setting/config"
+import { KEY_TOKEN } from '../../../../Service/storeService'
+import {history} from "../../../../App"
+import { UserOutlined } from "@ant-design/icons";
+import { useSelector , useDispatch } from 'react-redux'
 
 export default function Header(props) {
+  const {userLogin} = useSelector(state=>state.UserManageReducer)
+  const renderLogin=()=>{
+    if (_.isEmpty(userLogin)) {
+      return <Fragment>
+         <button
+          className="btn btn-outline-danger px-3 "
+          type="submit"
+          onClick={() => { history.push('/login') }}
+        >
+          <NavLink style={{color:'white'}} to="/login">
+              Sign in
+          </NavLink>
+        
+        </button>
+        <button className="btn btn-outline-success px-3 mx-3" type="submit">
+        <NavLink style={{color:'white'}} to="/register">
+              Sign up
+          </NavLink>
+        </button>
+      </Fragment>
+    }
+    return <Fragment>
+    <button
+       className="btn  px-3 "
+       type="submit" style={{display:'flex',justifyContent:'center'}}
+     >
+       <NavLink style={{color:'white'}} to="/profile">
+         <UserOutlined style={{width:'32px',height:'32px',lineHeight:'30px',borderRadius:'20px',backgroundColor:'pink'}} /> hello!{userLogin.username} ||
+       </NavLink>
+     </button>
+     <button onClick={() => { 
+       console.log(userLogin,'đăng xu')
+         localStorage.removeItem(userLogin);
+         localStorage.removeItem(USER_LOGIN);
+         localStorage.removeItem(KEY_TOKEN);
+         history.push('/home')
+         window.location.reload();
+        }} className="text-success">Đăng Xuất</button>
+     </Fragment> 
+  }
   return (
 
 <header className='navbar container-fluid text-light' style={{
@@ -32,12 +79,7 @@ export default function Header(props) {
       </li>
     </ul>
     <div className='d-flex pb-2'	>
-      <button  className="btn btn-outline-danger px-3 " type="submit">
-        <NavLink style={{color:"white",textDecoration:"none"}} to="/login">Sign in</NavLink>
-      </button>
-      <button  className="btn btn-outline-success px-3 mx-3" type="submit">
-        <NavLink style={{color:"white",textDecoration:"none"}} to="/register">Sign up</NavLink>
-      </button>
+      {renderLogin()}
       </div>
 </header>
   )

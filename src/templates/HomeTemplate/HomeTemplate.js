@@ -1,4 +1,4 @@
-import { Carousel } from "antd"
+
 import { Fragment } from "react"
 import {Route} from 'react-router-dom'
 import HomeCarousel from "./Layout/HomeCarousel/HomeCarousel"
@@ -9,7 +9,6 @@ export const HomeTemplate = (props) => {
   return<Route {...restProps} render={(propsRoute) => { 
     return<Fragment>
     <Header {...propsRoute}/>
-    <HomeCarousel {...propsRoute}/>
     <Component {...propsRoute}/>
    <Footer/>
     </Fragment>
