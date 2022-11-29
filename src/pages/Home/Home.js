@@ -1,14 +1,25 @@
 import React from "react";
 import HomeMenu from "./HomeMenu/HomeMenu";
 import "../Home/Home.css";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import CustomArrows from "../../Components/ReactSlick/SimpleSlide";
 import Blog from "../../Components/Blog/Blog";
 import HomeCarousel from "../../templates/HomeTemplate/Layout/HomeCarousel/HomeCarousel"
 import "animate.css";
+import { useEffect } from "react";
+import { getAllFilmAction } from "../../Redux/Actions/FilmManageAction";
+import { getAllCinemaAction } from "../../Redux/Actions/CinemaManageAction";
 export default function Home(props) {
   const { arrFilm } = useSelector((state) => state.FilmManageReducer);
-
+  const { arrCinema } = useSelector((state)=>state.CinemaManageReducer);
+  console.log("array",arrFilm)
+  // console.log("array",arrCinema)
+   const dispatch = useDispatch();
+  useEffect(() => { 
+    const action = getAllFilmAction()
+    dispatch(action)
+    dispatch(getAllCinemaAction())
+  },[])
   return (
     <div>
       {/* <CarouselHome/> */}
@@ -69,7 +80,7 @@ export default function Home(props) {
               aria-labelledby="pills-home-tab"
             >
               {/* giao dieenj load phim */}
-              <CustomArrows arrFilm={arrFilm} />
+              <CustomArrows arrFilm={arrFilm}  />
         
             </div>
             <div
@@ -83,7 +94,7 @@ export default function Home(props) {
           </div>
         </div>
 
-        <HomeMenu />
+        <HomeMenu arrCinema={arrCinema}/>
       </div>
       <Blog />
     </div>

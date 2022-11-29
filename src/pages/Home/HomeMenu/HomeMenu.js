@@ -5,13 +5,57 @@ import {NavLink}  from 'react-router-dom'
 const { TabPane } = Tabs;
 
 export default function HomeMenu(props) {
-
+  console.log("cinema",props)
    const [tabPosition, setTabPosition] = useState('left');
-
+   
   const changeTabPosition = (e) => {
     setTabPosition(e.target.value);
   };
+  const renderCinema = () => { 
+    return props.arrCinema.map((cluster,index)=>{
+     return <TabPane tab={<img src={cluster.img} className="rounded-full" width="50"/>} key={index}>
+               <Tabs tabPosition={tabPosition}>
+               {cluster.Cinemas.map((Cinemas,index) => { 
+                console.log(Cinemas.cinemaName,"list")
+                return <TabPane tab={
+                  <div style={{width:"300px",display:'flex'}}>
+                   <img src={cluster.img}className="rounded-full" width="50"/>
+                        <div className="text-left ml-2">
+                        {Cinemas.cinemaName}-{Cinemas.address}
+                        <p style={{color:"red"}}>chi tiết</p>  
+                        </div>
+                  </div>
+                  } key={index}>
+                    {Cinemas.Films.slice(0,5).map((Films,index) => { 
+                     return <Fragment key={index}>
+                     <div className="my-2" style={{display:"flex", paddingBottom:"20px"}} >
+                           <div className="d-flex">
+                             <img style={{width:"100px",height:"100px"}} src={Films.img} alt="" />
+                             <div className="ml-2 ">
+                                <h3  style={{color:'green',fontWeight:'700'}}>{Films.movieName}</h3>
+                                 <p className='text'>{Films.country}</p>
+                                 <div className="grid grid-cols-6 gap-6">
+                                 <p className='time'>{Films.dateEnd}</p>
+ 
+                                 </div>
+                             
+                             </div>
+                     
+                           </div>
+                           
+                       </div>
+                       <hr/>
+                       </Fragment>
 
+                     })}
+                    
+                  </TabPane>
+                })}
+               
+               </Tabs> 
+          </TabPane>
+    })
+   }
   return (
     <>
     <h1
@@ -28,105 +72,8 @@ export default function HomeMenu(props) {
           LỊCH CHIẾU
         </h1>
         <Tabs tabPosition={tabPosition} style={{width: "100%",border: "solid 1px #f7f8f9",borderRadius: 15,marginBottom:"70px"}}>
-        <TabPane tab={<img src="https://movienew.cybersoft.edu.vn/hinhanh/bhd-star-cineplex.png" className="rounded-full" width="50"/>} >
-               <Tabs tabPosition={tabPosition}>
-               <TabPane tab={
-                  <div style={{width:"300px",display:'flex'}}>
-                   <img src="https://movienew.cybersoft.edu.vn/hinhanh/bhd-star-cineplex.png" className="rounded-full" width="50"/>
-                        <div className="text-left ml-2">
-                        BHD Star Cineplex - Bitexco
-                        <p style={{color:"red"}}>chi tiết</p>  
-                        </div>
-                  </div>
-                  } >
-                    <Fragment >
-                    <div className="my-2" style={{display:"flex", paddingBottom:"20px"}} >
-                          <div className="d-flex">
-                            <img style={{width:"100px",height:"100px"}} src="https://movienew.cybersoft.edu.vn/hinhanh/lua-deu-gap-lua-dao_gp03.jpg" alt="" />
-                            <div className="ml-2 ">
-                               <h3  style={{color:'green',fontWeight:'700'}}>Lừa Đểu Gặp Lừa Đảo</h3>
-                                <p className='text'>L3-Bitexco Icon 68, 2 Hải Triều, Q.1</p>
-                                <div className="grid grid-cols-6 gap-6">
-                                <p className='time'>10:10AM</p>
-
-                                </div>
-                            
-                            </div>
-                    
-                          </div>
-                          
-                      </div>
-                      <hr/>
-                      </Fragment>
-                  </TabPane>
-               </Tabs> 
-          </TabPane>
-          <TabPane tab={<img src="https://movienew.cybersoft.edu.vn/hinhanh/bhd-star-cineplex.png" className="rounded-full" width="50"/>} >
-               <Tabs tabPosition={tabPosition}>
-               <TabPane tab={
-                  <div style={{width:"300px",display:'flex'}}>
-                   <img src="https://movienew.cybersoft.edu.vn/hinhanh/bhd-star-cineplex.png" className="rounded-full" width="50"/>
-                        <div className="text-left ml-2">
-                        BHD Star Cineplex - Bitexco
-                        <p style={{color:"red"}}>chi tiết</p>  
-                        </div>
-                  </div>
-                  } >
-                    <Fragment >
-                    <div className="my-2" style={{display:"flex"}} >
-                          <div className="d-flex">
-                            <img style={{width:"100px",height:"100px"}} src="https://movienew.cybersoft.edu.vn/hinhanh/lua-deu-gap-lua-dao_gp03.jpg" alt="" />
-                            <div className="ml-2 ">
-                               <h3  style={{color:'green',fontWeight:'700'}}>Lừa Đểu Gặp Lừa Đảo</h3>
-                                <p className='text'>L3-Bitexco Icon 68, 2 Hải Triều, Q.1</p>
-                                <div className="grid grid-cols-6 gap-6">
-                                <p className='time'>10:10AM</p>
-
-                                </div>
-                            
-                            </div>
-                    
-                          </div>
-                          
-                      </div>
-                      <hr/>
-                      </Fragment>
-                  </TabPane>
-               </Tabs> 
-          </TabPane>
-          <TabPane tab={<img src="https://movienew.cybersoft.edu.vn/hinhanh/bhd-star-cineplex.png" className="rounded-full" width="50"/>} >
-               <Tabs tabPosition={tabPosition}>
-               <TabPane tab={
-                  <div style={{width:"300px",display:'flex'}}>
-                   <img src="https://movienew.cybersoft.edu.vn/hinhanh/bhd-star-cineplex.png" className="rounded-full" width="50"/>
-                        <div className="text-left ml-2">
-                        BHD Star Cineplex - Bitexco
-                        <p style={{color:"red"}}>chi tiết</p>  
-                        </div>
-                  </div>
-                  } >
-                    <Fragment >
-                    <div className="my-2" style={{display:"flex"}} >
-                          <div className="d-flex">
-                            <img style={{width:"100px",height:"100px"}} src="https://movienew.cybersoft.edu.vn/hinhanh/lua-deu-gap-lua-dao_gp03.jpg" alt="" />
-                            <div className="ml-2 ">
-                               <h3  style={{color:'green',fontWeight:'700'}}>Lừa Đểu Gặp Lừa Đảo</h3>
-                                <p className='text'>L3-Bitexco Icon 68, 2 Hải Triều, Q.1</p>
-                                <div className="grid grid-cols-6 gap-6">
-                                <p className='time'>10:10AM</p>
-
-                                </div>
-                            
-                            </div>
-                    
-                          </div>
-                          
-                      </div>
-                      <hr/>
-                      </Fragment>
-                  </TabPane>
-               </Tabs> 
-          </TabPane>
+          {renderCinema()}
+         
         </Tabs>
     </>
   )

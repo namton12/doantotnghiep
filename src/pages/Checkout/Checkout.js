@@ -2,6 +2,8 @@ import React from 'react'
 import { Fragment } from 'react';
 import { Tabs } from "antd";
 import { NavLink } from "react-router-dom";
+import sendEther from '../../utilities/web3/sendEther'
+import axios from 'axios';
 import {
   IssuesCloseOutlined,
   UserOutlined,
@@ -73,7 +75,50 @@ export default function(props) {
     </div>
   );
 }
-
+const ticketDetailt = {
+  paymentID: "12345678999", // chuỗi ngẫu nhiên, gợi ý dùng google uuid 
+  email: "namton12@gmail.com", // địa chỉ email của khách hàng
+  payer_address: "", // địa chỉ ví ETH của người thanh toán 
+  name: "Hau due mat troi",  // tên phim
+  time: "14:00-15:00", // thời gian xem phim
+  location: "CGV Hoàng Mai", // vị trí rạp
+  price: "1", // số lượng ETH thanh toán 
+  price_unit: "ETH", // đơn vị tiền tệ thanh toán là ETH
+  transaction_hash: "" // mã băm giao dịch khi sử dụng thanh toán Metamask. dùng để kiểm tra trạng thái thanh toán
+}
+const handleBooking = () => {
+  // create payment using metamask
+  sendEther(ticketDetailt.price, process.env.REACT_APP_ADMIN_WALLET).then( async (txn) => {
+    console.log(txn.sender)
+    console.log(txn.transaction_hash)
+    ticketDetailt.payer_address =  txn.sender
+    // send payment detailt to server
+    const data = new FormData();
+    data.append('payment_id', ticketDetailt.paymentID)
+    data.append('transaction_hash', txn.transaction_hash)
+    try {
+      await axios
+        .post('http://localhost:8080/v1/payment/crypto', data, {
+          headers: {
+            // Authorization: jwt,
+            'Content-type': 'multipart/form-data'
+          }
+        })
+        .then((response, error) => {
+          if (response.status == 200) {
+            console.log(response)
+            //console.log("Tạo giao dịch thành công. Vui lòng đợi hệ thống kiểm tra trạng thái giao dịch")
+          } else {
+            alert(error);
+          }
+        });
+    } catch (error) {
+      alert(error);
+    }
+  })
+  // check payment service from golang app 
+  console.log("Đặt vé thành công. Hẹn gặp lại")
+}
 function Checkout(props) {
   const { userLogin } = useSelector((state) => state.UserManageReducer);
   console.log(userLogin, "user");

@@ -4,7 +4,7 @@ import "../Film/Film.css";
 import {history} from "../../App"
 export default function Film(props) {
   const { movie } = props;
-
+  console.log("props",props)
   return (
     <div className="film px-3 mt-5">
       <div

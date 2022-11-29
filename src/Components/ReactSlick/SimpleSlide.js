@@ -54,9 +54,7 @@ const CustomArrows = (props) =>  {
       <div>
         <Slider className="row" {...settings}>
          {renderfilm()}
-         {renderfilm()}
-         {renderfilm()}
-         {renderfilm()}
+         
         </Slider>
       </div>
     );
